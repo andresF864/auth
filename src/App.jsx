@@ -1,36 +1,36 @@
 import { useContext, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Login from "./routes/Login";
 import Home from "./routes/Home";
-import Register from "./components/Register";
-import RequireAuth from "./components/RequireAuth";
-import { UserContext } from "./context/UserProvider";
+import LayoutRedirect from "./Components/Layout/LayaoutRedirect";
+
+import Navbar from "./Components/Navbar";
+import RequireAuth from "./Components/Layout/RequireAuth";
 import "./App.css";
+import Register from "./routes/Register";
+import { UserContext } from "./context/UserProvider";
+import LayoutContainerForm from "./Components/Layout/LayoutContainerForm";
 
 function App() {
-  const [count, setCount] = useState(0);
   const { user } = useContext(UserContext);
+
   if (user === false) {
-    return <p>Loading 😜😜😜😜😜😜😜😜😜😜</p>;
+    return <p>loading user............</p>;
   }
 
   return (
     <>
       <Navbar />
+      <h1>APP</h1>
+
       <Routes>
-        <Route
-          path="/"
-          element={
-            <RequireAuth>
-              <Home />
-            </RequireAuth>
-          }
-        ></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        <Route path="/" element={<RequireAuth />}>
+          <Route index element={<Home />} />
+        </Route>
+        <Route path={"/"} element={<LayoutContainerForm />}>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+        </Route>
       </Routes>
     </>
   );
